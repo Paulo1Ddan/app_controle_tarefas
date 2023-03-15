@@ -11,6 +11,7 @@
                             <a href="{{route('tarefa.create')}}" class="btn btn-primary">Cadastrar</a>
                             <a href="{{route('tarefa.exportacao', ['ext'=>'xlsx'])}}" class="btn btn-primary">XLSX</a>
                             <a href="{{route('tarefa.exportacao', ['ext'=>'csv'])}}" class="btn btn-primary">CSV</a>
+                            <a href="{{route('tarefa.exportar')}}" target="_blank" class="btn btn-primary">PDF</a>
                         </div>
                     </div>
                     <div class="card-body">

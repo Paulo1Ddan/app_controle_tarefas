@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TarefasExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class TarefaController extends Controller
 {
@@ -27,7 +29,7 @@ class TarefaController extends Controller
      */
     public function index()
     {
-        $tarefa = Tarefa::where('user_id', auth()->user()->id)->paginate(1);
+        $tarefa = Tarefa::where('user_id', auth()->user()->id)->paginate(10);
 
         return view('tarefa.index', ['tarefas' => $tarefa]);
     }
@@ -148,5 +150,14 @@ class TarefaController extends Controller
         }
 
         return Excel::download(new TarefasExport, "tarefas.$ext");
+    }
+    
+    public function exportar(Request $request){
+        $tarefas = auth()->user()->tarefas()->get();
+        $pdf = Pdf::loadView('pdf.tarefa', ['tarefas' => $tarefas]);
+
+        $pdf->setPaper('a4', 'portrait');
+        //return $pdf->download('tarefa.pdf');
+        return $pdf->stream('tarefa.pdf');
     }
 }
